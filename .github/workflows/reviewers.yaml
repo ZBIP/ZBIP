@@ -13,6 +13,12 @@ jobs:
         echo "PR_CREATOR=${{ github.event.pull_request.user.login }}" >> "$GITHUB_ENV"
     - name: View PR author env
       run: echo "This PR is opened by $PR_CREATOR."
+    - name: Debug A
+      run: |
+        curl -s -H \
+          "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          "https://api.github.com/orgs/ZBIP/teams/Secops/members"
     - name: Get security team members
       id: security-team
       run: |
@@ -31,7 +37,7 @@ jobs:
           "https://api.github.com/orgs/ZBIP/teams/Developer/members" | \
         jq -r ".[].login | select(. != \"$PR_CREATOR\")" | shuf | head -n 1 | \
         xargs -I {} echo "DEVELOPER_REV={}" >> "$GITHUB_ENV"
-    - name: Debug
+    - name: Debug B
       run: echo "$SECURITY_REV $DEVELOPER_REV $PR_CREATOR"
     - name: Assign reviewers
       id: assign-reviewers
