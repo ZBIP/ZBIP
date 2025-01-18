@@ -1,0 +1,39 @@
+name: Assign reviewers
+on:
+  pull_request:
+    types: [opened]
+jobs:
+  assign-reviewers:
+    runs-on: ubuntu-latest
+
+    steps:
+    # - name: Checkout repository
+    #   uses: actions/checkout@v3
+    - name: View PR author
+      run: echo "This PR is opened by ${{ github.event.pull_request.user.login }} ."
+    - name: Get PR creator
+      id: pr-creator
+      run: |
+        echo "PR_CREATOR=$(jq -r 'github.event.pull_request.user.login' $GITHUB_EVENT_PATH)" >> "$GITHUB_ENV"
+    - name: Get security team members
+      id: security-team
+      run: |
+        echo 'SECURITY_REV=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          "https://api.github.com/orgs/ZBIP/teams/Secops/members" | jq -r ".[].login | select(. != \"$PR_CREATOR\")"' | shuf | head -n 1 >> "$GITHUB_ENV"
+    - name: Get developers team members
+      id: developers-team
+      run: |
+        echo 'DEVELOPER_REV=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          "https://api.github.com/orgs/ZBIP/teams/Developer/members" | jq -r ".[].login | select(. != \"$PR_CREATOR\")"' | shuf | head -n 1 >> "$GITHUB_ENV"
+    - name: Debug
+      run: echo "$SECURITY_REV $DEVELOPER_REV $PR_CREATOR"
+    - name: Assign reviewers
+      id: assign-reviewers
+      run: |
+        curl -s -X POST \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers \
+          -d "{\"reviewers\":[\"$SECURITY_REV\",\"$DEVELOPER_REV\"]}"
