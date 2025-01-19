@@ -7,7 +7,10 @@ jobs:
   build:
     uses: ./.github/workflows/build.yaml
     with:
-      artifacts: true
+      artifacts: false
   deploy:
     uses: ./.github/workflows/deploy-droplet.yaml
+    needs: [build, test]
+  track-changes:
+    uses: ./.github/workflows/changelog.yaml
     needs: [build, test]
