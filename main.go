@@ -16,7 +16,7 @@ func main() {
 		})
 	})
 
-	Vulnerable code
+	// Vulnerable code
 	r.GET("/download", func(c *gin.Context) {
 		dir := "/Users/{CHANGE_PROJECT_DIRECTRY}/"
 
