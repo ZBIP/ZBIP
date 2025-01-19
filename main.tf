@@ -18,7 +18,6 @@ data "digitalocean_app" "zbip-app" {
 }
 
 resource "digitalocean_app" "zbip-app" {
-  app_id = data.digitalocean_app.existing_app.app_id
   spec {
     name   = "zbip-app"
     region = "fra"
