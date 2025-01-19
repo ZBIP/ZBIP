@@ -11,9 +11,11 @@ jobs:
     uses: ./.github/workflows/build.yaml
     with:
       artifacts: false
-  deploy:
+  deploy-terraform:
+    secrets: inherit
     uses: ./.github/workflows/deploy-terraform.yaml
     needs: [build, test]
   track-changes:
+    secrets: inherit
     uses: ./.github/workflows/track-release.yaml
-    needs: [build, test, deploy]
+    needs: [build, test, deploy-terraform]
