@@ -5,7 +5,7 @@ defaults:
   run:
     shell: bash
 jobs:
-  test:
+  go-test:
     runs-on: ubuntu-latest
     container: golang:1.23.4-bullseye
     steps:
