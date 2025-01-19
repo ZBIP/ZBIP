@@ -6,7 +6,7 @@ defaults:
   run:
     shell: bash
 env:
-  DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITAL_OCEAN_APP_PLATFORM }}
+  TF_VAR_digitalocean_token: ${{ secrets.DIGITAL_OCEAN_APP_PLATFORM }}
 jobs:
   deploy:
     runs-on: ubuntu-latest
