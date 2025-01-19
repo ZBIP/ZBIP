@@ -33,7 +33,7 @@ jobs:
         run: terraform validate -no-color
       - name: Import existing app into Terraform state
         run: |
-          terraform import digitalocean_app.zbip-app $(doctl apps list -o json | jq ".[] | select(.spec.name == \"zbip-app\") | .id")
+          terraform import digitalocean_app.zbip-app $(doctl apps list -o json | jq -r ".[] | select(.spec.name == \"zbip-app\") | .id")
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
