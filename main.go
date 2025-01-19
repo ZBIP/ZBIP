@@ -44,6 +44,30 @@ func main() {
 		})
 	})
 	
+	r.GET("/div/:a/:b", func(c *gin.Context) {
+		a, err := strconv.Atoi(c.Param("a"))
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": "Invalid parameter a",
+			})
+		}
+		b, err := strconv.Atoi(c.Param("b"))
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": "Invalid parameter b",
+			})
+		}
+
+		if b == 0 {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": "Invalid parameter b",
+			})
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"result": a / b,
+		})
+	})
 
 	if err := r.Run(); err != nil {
 		panic(err)
