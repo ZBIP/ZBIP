@@ -4,12 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/ZBIP/ZBIP/pkg/add"
 	"github.com/gin-gonic/gin"
 )
-
-func add(a, b int) int {
-	return a + b
-}
 
 func main() {
 	r := gin.Default()
@@ -20,15 +17,14 @@ func main() {
 	})
 
 	// Vulnerable code
-	r.GET("/download", func(c *gin.Context) {
-		dir := "/Users/{CHANGE_PROJECT_DIRECTRY}/"
+	// r.GET("/download", func(c *gin.Context) {
+	// 	dir := "/Users/{CHANGE_PROJECT_DIRECTRY}/"
 
-		// Although the file name is hard-coded, we assume that the file name is actually determined by the DB or user input.
-		filename := "malicious.sh\";dummy=.txt"
-		c.FileAttachment(dir+filename, filename)
-	})
+	// 	// Although the file name is hard-coded, we assume that the file name is actually determined by the DB or user input.
+	// 	filename := "malicious.sh\";dummy=.txt"
+	// 	c.FileAttachment(dir+filename, filename)
+	// })
 
-	
 	r.GET("/add/:a/:b", func(c *gin.Context) {
 		a, err := strconv.Atoi(c.Param("a"))
 		if err != nil {
@@ -44,10 +40,10 @@ func main() {
 		}
 
 		c.JSON(http.StatusOK, gin.H{
-			"result": add(a, b),
+			"result": add.Add(a, b),
 		})
 	})
-	// listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+
 	if err := r.Run(); err != nil {
 		panic(err)
 	}
