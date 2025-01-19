@@ -7,14 +7,10 @@ terraform {
   }
 }
 
-variable "digitalocean_token" {}
+variable "do_token" {}
 
 provider "digitalocean" {
-  token = var.digitalocean_token
-}
-
-data "digitalocean_app" "zbip-app" {
-  app_id = "3de9aff3-00fe-4574-8045-72435ee8e248"
+  token = var.do_token
 }
 
 resource "digitalocean_app" "zbip-app" {
