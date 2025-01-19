@@ -15,5 +15,5 @@ jobs:
     uses: ./.github/workflows/deploy-terraform.yaml
     needs: [build, test]
   track-changes:
-    uses: ./.github/workflows/changelog.yaml
-    needs: [build, test]
+    uses: ./.github/workflows/track-release.yaml
+    needs: [build, test, deploy]
