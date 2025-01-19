@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: 23 12 * * *
+    - cron: 36 11 * * *
 permissions:
   contents: read
   issues: write
