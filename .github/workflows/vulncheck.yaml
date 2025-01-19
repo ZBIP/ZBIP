@@ -1,10 +1,15 @@
+name: Vulnerability Check
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/15 * * * *"
+    # Run every day at 11:23 UTC 
+    - cron: "23 11 * * *"
 permissions:
   contents: read
   issues: write
+defaults:
+  run:
+    shell: bash
 jobs:
   go-vulncheck:
     runs-on: ubuntu-latest
@@ -16,13 +21,15 @@ jobs:
         with:
            go-version-file: go.mod
            go-package: ./...
+           output-file: vulncheck.log
       - name: Create Issue on Failure
         if: failure()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ISSUE_TITLE="Vulnerability Check Failed - $(date +'%Y-%m-%d')"
-          ISSUE_BODY="The scheduled vulnerability check has failed. Please investigate the reported issues.\n\nLogs:\n\`\`\`\n${{ steps.vulncheck.outputs.log }}\n\`\`\`"
+          VULNCHECK_LOG=$(cat vulncheck.log)
+          ISSUE_BODY="The scheduled vulnerability check has failed. Please investigate the reported issues.\n\nLogs:\n\`\`\`\n$VULNCHECK_LOG\n\`\`\`"
 
           EXISTING_ISSUE=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
