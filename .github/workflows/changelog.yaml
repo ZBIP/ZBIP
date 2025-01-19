@@ -14,6 +14,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Get last staging release
+        run: |
           echo "LAST_RELEASE=${{ vars.LAST_STAGING_RELEASE }}" >> "$GITHUB_ENV"
       - name: Collect changelog updates
         run: |
