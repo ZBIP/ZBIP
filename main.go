@@ -44,25 +44,6 @@ func main() {
 		})
 	})
 	
-	r.GET("/mul/:a/:b", func(c *gin.Context) {
-		a, err := strconv.Atoi(c.Param("a"))
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "Invalid parameter a",
-			})
-		}
-		b, err := strconv.Atoi(c.Param("b"))
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "Invalid parameter b",
-			})
-		}
-
-		c.JSON(http.StatusOK, gin.H{
-			"result": a * b,
-		})
-	})
-	
 
 	if err := r.Run(); err != nil {
 		panic(err)
