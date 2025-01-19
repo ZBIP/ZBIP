@@ -9,7 +9,7 @@ jobs:
     with:
       artifacts: false
   deploy:
-    uses: ./.github/workflows/deploy-droplet.yaml
+    uses: ./.github/workflows/deploy-terraform.yaml
     needs: [build, test]
   track-changes:
     uses: ./.github/workflows/changelog.yaml
