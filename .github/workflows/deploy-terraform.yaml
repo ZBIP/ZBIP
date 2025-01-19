@@ -27,13 +27,13 @@ jobs:
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
-      - name: Import existing app into Terraform state
-        run: |
-          terraform import digitalocean_app.zbip-app 3de9aff3-00fe-4574-8045-72435ee8e248
+      # - name: Import existing app into Terraform state
+      #   run: |
+      #     terraform import digitalocean_app.zbip-app 3de9aff3-00fe-4574-8045-72435ee8e248
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
         # continue-on-error: true
       - name: Deploy to DigitalOcean
-        run: terraform apply -auto-approve
+        run: terraform apply -replace=digitalocean_app.zbip-app -auto-approve
       
