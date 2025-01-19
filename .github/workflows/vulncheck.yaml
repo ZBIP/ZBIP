@@ -22,8 +22,6 @@ jobs:
            go-version-file: go.mod
            go-package: ./...
            output-file: vulncheck.log
-      - name: Debug
-        run: cat vulncheck.log | jq -Rsa .
       - name: Create Issue on Failure
         if: failure()
         env:
@@ -31,8 +29,10 @@ jobs:
         run: |
           ISSUE_TITLE="Vulnerability Check Failed - $(date +'%Y-%m-%d')"
           VULNCHECK_LOG=$(cat vulncheck.log | jq -Rsa .)
+          echo "log:$VULNCHECK_LOG"
           ISSUE_BODY="The scheduled vulnerability check has failed. Please investigate the reported issues.\n\nLogs:\n\`\`\`\n$VULNCHECK_LOG\n\`\`\`"
-
+          echo "Creating issue: $ISSUE_TITLE"
+          echo "$ISSUE_BODY"
           EXISTING_ISSUE=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             "https://api.github.com/repos/${{ github.repository }}/issues?state=open" | \
