@@ -38,10 +38,7 @@ jobs:
         run: |
           ISSUE_TITLE="Vulnerability Check Failed - $(date +'%Y-%m-%d')"
           VULNCHECK_LOG=$(cat vulncheck.log | jq -Rsa . | sed 's/^\"\(.*\)\"$/\1/')
-          echo "log:$VULNCHECK_LOG"
           ISSUE_BODY="The scheduled vulnerability check has failed. Please investigate the reported issues.\n\nLogs:\n\`\`\`\n$VULNCHECK_LOG\n\`\`\`"
-          echo "Creating issue: $ISSUE_TITLE"
-          echo "$ISSUE_BODY"
           EXISTING_ISSUE=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             "https://api.github.com/repos/${{ github.repository }}/issues?state=open" | \
@@ -57,7 +54,7 @@ jobs:
             curl -L \
               -X POST \
               -H "Accept: application/vnd.github+json" \
-              -H "Authorization: Bearer ${{ secrets.ACTIONS_APP_TOKEN }}" \
+              -H "Authorization: Bearer $GITHUB_TOKEN" \
               -H "X-GitHub-Api-Version: 2022-11-28" \
               "https://api.github.com/repos/ZBIP/ZBIP/issues/$ISSUE_NUMBER/assignees" \
               -d "{\"assignees\":[\"${{ vars.PROJECT_MANAGER }}\",\"$SECURITY_REV\"]}"
