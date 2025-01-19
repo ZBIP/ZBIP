@@ -1,4 +1,4 @@
-name: Collect Changelog Updates
+name: Track staging release
 on:
   workflow_dispatch:
   workflow_call:
@@ -26,7 +26,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ISSUE_TITLE="Staging Updated - $(date +'%Y-%m-%d')"
+          VERSION_SHA=${{ github.sha }}
+          VERSION_SHA=${VERSION_SHA:0:7}
+          ISSUE_TITLE="Staging Updated - $VERSION_SHA"
           ISSUE_BODY="## This issue tracks new changes to staging.\n\n \
             Assing people to test changes and close it once changes are stable and don't need to be tracked.\n\n \
             The following changes have been made to the changelog:\n\n\`\`\`\n$CHANGES\n\`\`\`"
