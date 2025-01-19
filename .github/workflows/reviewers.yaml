@@ -1,0 +1,40 @@
+name: Assign reviewers
+on:
+  pull_request:
+    types: [opened]
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  assign-reviewers:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get PR creator
+      run: |
+        echo "PR_CREATOR=${{ github.event.pull_request.user.login }}" >> "$GITHUB_ENV"
+    - name: Get security team members
+      id: security-team
+      run: |
+        curl -s -H \
+          "Authorization: Bearer ${{ secrets.ACTIONS_APP_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          "https://api.github.com/orgs/ZBIP/teams/Secops/members" | \
+        jq -r ".[].login | select(. != \"$PR_CREATOR\")" | shuf | head -n 1 | \
+        xargs -I {} echo "SECURITY_REV={}" >> "$GITHUB_ENV"
+    - name: Get developers team members
+      id: developers-team
+      run: |
+        curl -s -H \
+          "Authorization: Bearer ${{ secrets.ACTIONS_APP_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          "https://api.github.com/orgs/ZBIP/teams/Developer/members" | \
+        jq -r ".[].login | select(. != \"$PR_CREATOR\")" | shuf | head -n 1 | \
+        xargs -I {} echo "DEVELOPER_REV={}" >> "$GITHUB_ENV"
+    - name: Assign reviewers
+      id: assign-reviewers
+      run: |
+        curl -s -X POST \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers \
+          -d "{\"reviewers\":[\"$SECURITY_REV\",\"$DEVELOPER_REV\"]}"

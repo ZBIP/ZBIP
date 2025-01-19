@@ -1,0 +1,15 @@
+name: Run code tests
+on:
+  workflow_call:
+defaults:
+  run:
+    shell: bash
+jobs:
+  go-test:
+    runs-on: ubuntu-latest
+    container: golang:1.23.4-bullseye
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run tests
+        run: go test -mod=vendor -race ./...
