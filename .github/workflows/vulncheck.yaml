@@ -28,7 +28,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ISSUE_TITLE="Vulnerability Check Failed - $(date +'%Y-%m-%d')"
-          VULNCHECK_LOG=$(cat vulncheck.log)
+          VULNCHECK_LOG=$(cat vulncheck.log | jq -Rsa .)
           ISSUE_BODY="The scheduled vulnerability check has failed. Please investigate the reported issues.\n\nLogs:\n\`\`\`\n$VULNCHECK_LOG\n\`\`\`"
 
           EXISTING_ISSUE=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
