@@ -22,6 +22,8 @@ jobs:
            go-version-file: go.mod
            go-package: ./...
            output-file: vulncheck.log
+      - name: Debug
+        run: cat vulncheck.log | jq -Rsa .
       - name: Create Issue on Failure
         if: failure()
         env:
