@@ -28,4 +28,4 @@ jobs:
         with:
           name: build
           path: build.tar.gz
-          retention-days: 3
+          retention-days: 1
