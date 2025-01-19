@@ -13,6 +13,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITAL_OCEAN_APP_PLATFORM }}
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v3
         with:
@@ -29,7 +33,7 @@ jobs:
         run: terraform validate -no-color
       - name: Import existing app into Terraform state
         run: |
-          terraform import digitalocean_app.zbip-app 3de9aff3-00fe-4574-8045-72435ee8e248
+          terraform import digitalocean_app.zbip-app $(doctl apps list -o json | jq ".[] | select(.spec.name == \"zbip-app\") | .id")
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
