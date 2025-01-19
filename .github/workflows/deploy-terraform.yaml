@@ -28,7 +28,7 @@ jobs:
         id: validate
         run: terraform validate -no-color
       - name: Import existing app (if exists)
-        run: terraform import -var "do_token=${{ secrets.DIGITAL_OCEAN_APP_PLATFORM }}" digitalocean_app.zbip-app 3de9aff3-00fe-4574-8045-72435ee8e248
+        run: terraform import digitalocean_app.zbip-app 3de9aff3-00fe-4574-8045-72435ee8e248
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
