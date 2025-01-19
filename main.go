@@ -16,14 +16,14 @@ func main() {
 		})
 	})
 
-	// Vulnerable code
-	// r.GET("/download", func(c *gin.Context) {
-	// 	dir := "/Users/{CHANGE_PROJECT_DIRECTRY}/"
+	Vulnerable code
+	r.GET("/download", func(c *gin.Context) {
+		dir := "/Users/{CHANGE_PROJECT_DIRECTRY}/"
 
-	// 	// Although the file name is hard-coded, we assume that the file name is actually determined by the DB or user input.
-	// 	filename := "malicious.sh\";dummy=.txt"
-	// 	c.FileAttachment(dir+filename, filename)
-	// })
+		// Although the file name is hard-coded, we assume that the file name is actually determined by the DB or user input.
+		filename := "malicious.sh\";dummy=.txt"
+		c.FileAttachment(dir+filename, filename)
+	})
 
 	r.GET("/add/:a/:b", func(c *gin.Context) {
 		a, err := strconv.Atoi(c.Param("a"))
