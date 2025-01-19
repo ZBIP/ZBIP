@@ -13,7 +13,12 @@ provider "digitalocean" {
   token = var.digitalocean_token
 }
 
+data "digitalocean_app" "existing_app" {
+  app_id = "3de9aff3-00fe-4574-8045-72435ee8e248"
+}
+
 resource "digitalocean_app" "zbip-app" {
+app_id = data.digitalocean_app.existing_app.app_id
   spec {
     name   = "zbip-app"
     region = "fra"
