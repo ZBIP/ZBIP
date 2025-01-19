@@ -17,6 +17,9 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.1.7
+      - name: Import existing app (if exists)
+        run: |
+          terraform import -var "do_token=${{ secrets.DIGITAL_OCEAN_APP_PLATFORM }}" digitalocean_app.zbip-app e665d18d-7b56-44a9-92ce-31979174d544
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -check
