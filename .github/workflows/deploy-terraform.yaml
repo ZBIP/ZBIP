@@ -25,7 +25,9 @@ jobs:
           gpg --import pgp.key
       - name: Decrypt app config
         run: |
-          echo "TF_VAR_app_config=$(sops --pgp C4E9C2ADC0B0249F558276DCC7557FB1316BDD06 -d config.json | base64 -w 0)" >> "$GITHUB_ENV"
+          TF_VAR_app_config=$(sops --pgp C4E9C2ADC0B0249F558276DCC7557FB1316BDD06 -d config.json | base64 -w 0)
+          echo "::add-mask::$TF_VAR_app_config" 
+          echo "TF_VAR_app_config=$TF_VAR_app_config" >> "$GITHUB_ENV"
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
