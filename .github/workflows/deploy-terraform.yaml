@@ -7,6 +7,7 @@ defaults:
     shell: bash
 env:
   TF_VAR_digitalocean_token: ${{ secrets.DIGITAL_OCEAN_APP_PLATFORM }}
+  TF_VAR_secops_key: ${{ secrets.SECOPS_KEY }}
 jobs:
   deploy:
     runs-on: ubuntu-latest
