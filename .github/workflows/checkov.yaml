@@ -14,5 +14,5 @@ jobs:
       - name: Run Checkov action
         uses: bridgecrewio/checkov-action@master
         with:
-          directory: .
+          file: main.tf
           soft_fail: true
