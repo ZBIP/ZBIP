@@ -9,3 +9,4 @@
 - Added annother secret to config file 8
 - EXAMPLE
 - EXAMPLE 2
+- EXAMPLE 3
