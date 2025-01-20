@@ -8,6 +8,7 @@ terraform {
 }
 
 variable "digitalocean_token" {}
+variable "app_config" {}
 
 provider "digitalocean" {
   token = var.digitalocean_token
