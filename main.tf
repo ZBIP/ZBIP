@@ -28,12 +28,12 @@ resource "digitalocean_app" "zbip-app" {
         branch         = "main"
       }
 
-env = [
+      env = [
         {
-          key    = "APP_CONFIG" 
-          value  = var.app_config
-          scope  = "RUN_AND_BUILD_TIME"
-          type   = "SECRET"
+          key   = "APP_CONFIG"
+          value = var.app_config
+          scope = "RUN_AND_BUILD_TIME"
+          type  = "SECRET"
         }
       ]
     }
