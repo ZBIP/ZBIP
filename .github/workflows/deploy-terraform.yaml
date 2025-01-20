@@ -7,13 +7,16 @@ defaults:
     shell: bash
 env:
   TF_VAR_digitalocean_token: ${{ secrets.DIGITAL_OCEAN_APP_PLATFORM }}
-  TF_VAR_secops_key: ${{ secrets.SECOPS_KEY }}
+  # TF_VAR_secops_key: ${{ secrets.SECOPS_KEY }}
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Decrypt app config
+        run: |
+          echo "TF_VAR_app_config=aGVsbG8gV29ybGQhCg==" >> "$GITHUB_ENV"
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
