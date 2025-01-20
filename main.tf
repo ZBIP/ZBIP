@@ -13,6 +13,15 @@ provider "digitalocean" {
   token = var.digitalocean_token
 }
 
+envs = [
+  {
+    key   = "SECOPS_KEY"
+    value = var.secops_key
+    scope = "RUN_AND_BUILD_TIME"
+    type  = "SECRET"
+  }
+]
+
 resource "digitalocean_app" "zbip-app" {
   spec {
     name   = "zbip-app"
