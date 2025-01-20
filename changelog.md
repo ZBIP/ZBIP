@@ -7,3 +7,4 @@
 - Added getsecret endpoint
 - Added SOPS config file with secret ;]
 - Added annother secret to config file 8
+- EXAMPLE
