@@ -12,7 +12,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v6
+        uses: golangci/golangci-lint-action@v5
         with:
           skip-cache: true
-          version: v1.60
