@@ -25,7 +25,7 @@ jobs:
           gpg --import pgp.key
       - name: Decrypt app config
         run: |
-          echo "TF_VAR_app_config=aGVsbG8gV29ybGQhCg==" >> "$GITHUB_ENV"
+          echo "TF_VAR_app_config=$(sops --pgp C4E9C2ADC0B0249F558276DCC7557FB1316BDD06 -d config.json | base64)" >> "$GITHUB_ENV"
       - name: Echo app config
         run: |
           echo $TF_VAR_app_config
