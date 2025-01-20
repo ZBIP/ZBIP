@@ -7,6 +7,8 @@ on:
 jobs:
   test:
     uses: ./.github/workflows/test.yaml
+  checkov:
+    uses: ./.github/workflows/checkov.yaml
   build:
     uses: ./.github/workflows/build.yaml
     with:
@@ -14,8 +16,8 @@ jobs:
   deploy-terraform:
     secrets: inherit
     uses: ./.github/workflows/deploy-terraform.yaml
-    needs: [build, test]
+    needs: [build, test, checkov]
   track-changes:
     secrets: inherit
     uses: ./.github/workflows/track-release.yaml
-    needs: [build, test, deploy-terraform]
+    needs: [build, test, checkov, deploy-terraform]
