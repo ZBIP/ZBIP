@@ -10,3 +10,5 @@ jobs:
     uses: ./.github/workflows/lint.yaml
   build:
     uses: ./.github/workflows/build.yaml
+  checkov:
+    uses: ./.github/workflows/checkov.yaml
