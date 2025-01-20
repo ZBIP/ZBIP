@@ -13,12 +13,12 @@ import (
 )
 
 type Secret struct {
-	Key   int    `json:"key"`
+	Key   int    `json:"number"`
 	Value string `json:"value"`
 }
 
 type Config struct {
-	Secrets []Secret `json:"secrets"`
+	Secrets []Secret `json:"secretValues"`
 }
 
 func main() {
@@ -27,7 +27,6 @@ func main() {
 	if err != nil {
 		panic(fmt.Errorf("Failed to decode APP_CONFIG: %w", err))
 	}
-
 	cfg := Config{}
 	if err := json.Unmarshal(res, &cfg); err != nil {
 		panic(fmt.Errorf("Failed to unmarshal APP_CONFIG: %w", err))
@@ -74,6 +73,7 @@ func main() {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"error": "Invalid parameter a",
 			})
+			return
 		}
 
 		for _, secret := range cfg.Secrets {
