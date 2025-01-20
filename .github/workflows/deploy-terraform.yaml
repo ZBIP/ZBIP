@@ -14,9 +14,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Install SOPS
+        run: |
+          curl -LO https://github.com/getsops/sops/releases/download/v3.9.3/sops-v3.9.3.linux.amd64
+          mv sops-v3.9.3.linux.amd64 /usr/local/bin/sops
+          chmod +x /usr/local/bin/sops
+      - name: Add PGP key
+        run: |
+          echo "${{ secrets.SOPS_KEY }}" | base64 -d > pgp.key
+          gpg --import pgp.key
       - name: Decrypt app config
         run: |
-          echo "TF_VAR_app_config=aGVsbG8gV29ybGQhCg==" >> "$GITHUB_ENV"
+          echo "TF_VAR_app_config=$(sops --pgp C4E9C2ADC0B0249F558276DCC7557FB1316BDD06 -d config.json | base64 -w 0)" >> "$GITHUB_ENV"
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
