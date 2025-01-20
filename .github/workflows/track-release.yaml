@@ -31,7 +31,7 @@ jobs:
           ISSUE_TITLE="Staging Updated - $VERSION_SHA"
           ISSUE_BODY="## This issue tracks new changes to staging.\n\n \
             Assing people to test changes and close it once changes are stable and don't need to be tracked.\n\n \
-            The following changes have been made to the changelog:\n\n\`\`\`\n$CHANGES\n\`\`\`"
+            The following changes have been made to the changelog:\n\n$CHANGES\n"
 
           ISSUE_NUMBER=$(curl -s -X POST \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
