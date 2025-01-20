@@ -1,4 +1,4 @@
-name: Lint code and check for potential issues
+name: Lint code
 on:
   workflow_call:
 defaults:
