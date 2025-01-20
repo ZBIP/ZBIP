@@ -7,7 +7,7 @@ defaults:
 jobs:
   golangci-lint:
     runs-on: ubuntu-latest
-    container: golang:1.23.4-bullseye\
+    container: golang:1.23.4-bullseye
     env:
       GOFLAGS: '-buildvcs=false'
     steps:
