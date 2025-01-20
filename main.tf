@@ -30,8 +30,8 @@ resource "digitalocean_app" "zbip-app" {
 
 env = [
         {
-          key    = "SECOPS_KEY" 
-          value  = var.secops_key
+          key    = "APP_CONFIG" 
+          value  = var.app_config
           scope  = "RUN_AND_BUILD_TIME"
           type   = "SECRET"
         }
