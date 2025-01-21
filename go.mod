@@ -2,7 +2,7 @@ module github.com/ZBIP/ZBIP
 
 go 1.21
 
-require github.com/gin-gonic/gin v1.9.0
+require github.com/gin-gonic/gin v1.9.1
 
 require (
 	github.com/bytedance/sonic v1.11.6 // indirect
