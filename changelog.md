@@ -8,3 +8,4 @@
 - Added SOPS config file with secret ;]
 - Added annother secret to config file 8
 - Added mask to secret (of course rotated it kappa)
+- Added sub endpoint
